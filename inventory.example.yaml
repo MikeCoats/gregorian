@@ -1,0 +1,6 @@
+all:
+  hosts:
+    gregorian-server:
+      ansible_host: example.org
+      ansible_user: gregorian
+      ansible_ssh_private_key_file: ~/.ssh/gregorian

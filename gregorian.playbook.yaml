@@ -1,0 +1,116 @@
+- name: Set up the Greg or Ian web app
+  hosts: gregorian-server
+  tasks:
+  
+    - name: Create the installation dir
+      ansible.builtin.file:
+        path: /opt/gregorian
+        state: directory
+        owner: gregorian
+        group: gregorian
+        mode: 'u=rwx,g=,o='
+      become: true
+
+    - name: Copy over the project files
+      ansible.builtin.copy:
+        src: '{{ item }}'
+        dest: /opt/gregorian
+        mode: 'u=rwx,g=,o='
+      loop:
+        - ./requirements.txt
+        - ./main.py
+        - ./index.html
+        - ./gregorian.service
+
+    - name: Create the static assets dir
+      ansible.builtin.file:
+        path: /opt/gregorian/assets
+        state: directory
+        owner: gregorian
+        group: gregorian
+        mode: 'u=rwx,g=,o='
+      become: true
+
+    - name: Copy over the static assets
+      ansible.builtin.copy:
+        src: './assets/{{ item }}'
+        dest: /opt/gregorian/assets
+        mode: 'u=rwx,g=,o='
+      loop:
+        - logo.svg
+
+    - name: Install python
+      ansible.builtin.apt:
+        name:
+          - python3
+          - python3-pip
+          - python3-venv
+          - python-is-python3
+        update_cache: true
+        cache_valid_time: 86400 # One day
+      become: true
+
+    - name: Install the python packages
+      ansible.builtin.pip:
+        requirements: /opt/gregorian/requirements.txt
+        virtualenv: /opt/gregorian/.venv
+        virtualenv_command: python -m venv
+
+    - name: Link in the systemd service
+      ansible.builtin.file:
+        src: /opt/gregorian/gregorian.service
+        dest: /etc/systemd/system/gregorian.service
+        mode: 'u=rw,g=r,o=r'
+        state: link
+      become: true
+
+    - name: Start the Greg or Ian web app
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: gregorian.service
+        enabled: true
+        state: restarted
+      become: true
+
+- name: Set up the Caddy reverse proxy
+  hosts: gregorian-server
+  tasks:
+  
+    - name: Create the sites directories
+      ansible.builtin.file:
+        path: '/etc/caddy/{{item}}'
+        state: directory
+        owner: root
+        group: root
+        mode: 'u=rwx,g=rx,o=rx'
+      loop:
+        - sites-available
+        - sites-enabled
+      become: true
+
+    - name: Copy over the caddyfile
+      ansible.builtin.copy:
+        src: ./gregorian.caddyfile
+        dest: /etc/caddy/sites-available/
+        owner: root
+        group: root
+        mode: 'u=rw,g=r,o=r'
+      become: true
+
+    - name: Link in the caddyfile to enable it
+      ansible.builtin.file:
+        state: link
+        src: /etc/caddy/sites-available/gregorian.caddyfile
+        dest: /etc/caddy/sites-enabled/gregorian.caddyfile
+        owner: root
+        group: root
+        mode: 'u=rw,g=r,o=r'
+      become: true
+
+    - name: Reload and restart caddy
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: caddy.service
+        enabled: true
+        state: restarted
+      become: true

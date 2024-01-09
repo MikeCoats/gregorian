@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+
+<head>
+  <meta charset="utf-8">
+  <title>The Greg or Ian Calendar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fec0ff">
+  <link rel="icon" sizes="any" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/logo.svg">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      background: #fec0ff;
+      padding-block: 1rem;
+      padding-inline: 1rem;
+    }
+
+    header,
+    main,
+    footer {
+      max-width: 60rem;
+      margin-inline: auto;
+      padding-inline: 2rem;
+      background: #f9d9fa;
+    }
+
+    img.site-logo {
+      height: 4rem;
+      width: 4rem;
+    }
+
+    h1 {
+      display: inline-block;
+      text-align: center;
+      margin-block: 1rem;
+      font-size: 2rem;
+      line-height: 2rem;
+    }
+
+    h2,
+    em {
+      display: block;
+      text-align: center;
+      margin-block: 0rem;
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    em {
+      font-size: 4rem;
+      padding-block: 4rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+      text-align: justify;
+      margin-block: 0;
+      padding-block: 1.25rem;
+    }
+
+    a.download {
+      display: block;
+      padding-block: 2rem;
+      margin-block: 2rem;
+      text-align: center;
+      background: rgb(248, 232, 201);
+    }
+
+    a.download img {
+      display: inline-block;
+      width: 10rem;
+      height: 10rem;
+      padding-left: 2rem;
+    }
+
+    a.download p {
+      display: inline-block;
+      color: rgb(0, 0, 119);
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-block: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img alt="" class="site-logo" src="/assets/logo.svg">
+    <h1>Greg or Ian<br>Calendar</h1>
+  </header>
+  <main>
+    <h2>Today, <time datetime="{{date}}">{{nice_date}}</time> is</h2>
+    <em>{{greg_or_ian}}!</em>
+    <h2>Get Greg or Ian in your Calendar app</h2>
+    <p>
+      To get your daily dose of &ldquo;Greg or Ian&rdquo; news, add the
+      following feed to your Calendar app. Download the
+      <code>.ics</code> file for a one-time hit, or add the URL as a
+      subscription to always keep up to date!
+    </p>
+    <a href="/feed.ics" class="download">
+      <img src="/assets/logo.svg"><br>
+      <p>Get the feed!</p>
+    </a>
+    <h2>Coda</h2>
+    <p>
+      This web app is the result of <a href="https://mikecoats.com">Mike
+      Coats</a> taking a simple joke way past the point of being funny.
+      The source code for this project is available for criticism over
+      <a href="https://github.com/mikecoats/gregorian">on Github</a>,
+      released under the
+      <a href="https://github.com/mikecoats/gregorian/LICENSE.md">GNU
+      Affero General Public License</a>.
+    </p>
+    <p>
+      The joke that inspired it all was
+      <a href="https://tech.lgbt/@Natasha_Jay/111696622594397672">posted
+      on Mastodon</a> by <a href="https://tech.lgbt/@Natasha_Jay">
+      Natasha Jay</a>.
+    </p>
+    <p>
+      The icon used in the header is
+      <a href="https://thenounproject.com/icon/help-calendar-656853/">
+      Help calendar</a> by <a href="https://thenounproject.com/mooyai/">
+      Khomsun Chaiwong</a>, made available under
+      <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+      Attribution</a> license.
+    </p>
+  </main>
+  <footer>
+  </footer>
+</body>
+
+</html>

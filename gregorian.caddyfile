@@ -1,0 +1,3 @@
+gregorian.mikecoats.xyz, gregorian.localhost {
+	reverse_proxy :8001
+}

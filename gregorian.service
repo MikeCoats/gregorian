@@ -1,0 +1,15 @@
+[Unit]
+Description=The Greg or Ian Calendar
+Documentation=https://github.com/mikecoats/gregorian
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=exec
+User=gregorian
+Group=gregorian
+WorkingDirectory=/opt/gregorian
+ExecStart=/opt/gregorian/.venv/bin/python main.py
+
+[Install]
+WantedBy=multi-user.target
