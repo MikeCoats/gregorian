@@ -27,7 +27,7 @@ __maintainer__ = "Mike Coats"
 __email__ = "i.am@mikecoats.com"
 
 __status__ = "Production"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 import asyncio
 from datetime import date, timedelta
@@ -88,17 +88,20 @@ async def home(request: Request):
     )
 
 
+def build_event(src_date: date, offset_days: int):
+    """Return an all-day Event, captioned with Greg or Ian."""
+    offset = timedelta(days=offset_days)
+    event_date = src_date + offset
+    e = Event(begin=event_date, name=GREG_OR_IAN[event_date.weekday()])
+    e.make_all_day()
+    return e
+
+
 @app.get("/feed.ics", response_class=CalendarResponse)
 async def feed():
     """Return an iCal feed so our visitor knows many 'Greg' or 'Ian' statuses."""
-    c = Calendar()
     today = date.today()
-    for i in range(-7, 28):
-        offset_days = timedelta(days=i)
-        event_date = today + offset_days
-        e = Event(begin=event_date, name=GREG_OR_IAN[event_date.weekday()])
-        e.make_all_day()
-        c.events.add(e)
+    c = Calendar(events=[build_event(today, offset) for offset in range(-7, 28)])
     return c.serialize()
 
 
