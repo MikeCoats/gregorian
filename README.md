@@ -1,3 +1,11 @@
+# The Greg or Ian Calendar
+
+[gregorian.mikecoats.xyz](https://gregorian.mikecoats.xyz)
+
+A web app with an integrated iCal feed so you will always know whether today is a Greg or Ian day!
+
+![A screenshot of the Greg or Ian Calendar web app. In the screenshot, it's Thursday 11th January 2024, making it an 'Ian' day.](./assets/screenshot-web.png)
+
 ## For developers
 
 ### Install the required packages
@@ -5,7 +13,7 @@
 ```sh
 $ python -m venv .venv
 $ source .venv/bin/activate
-$ pip install -r requirements.txt
+$ pip install -r dev-requirements.txt
 ```
 
 ### Debug with Visual Studio Code
@@ -40,6 +48,24 @@ array.
 }
 ```
 
+### Linting the project
+
+```sh
+$ black main.py
+
+$ isort main.py
+
+$ flake8 main.py
+
+$ pylint main.py
+```
+
+### Deploy the project
+
+```sh
+$ ansible-playbook -i inventory.yaml gregorian.playbook.yaml
+```
+
 ## Credits
 
 ### Inspiration
@@ -47,6 +73,8 @@ array.
 by 
 [Natasha Jay](https://tech.lgbt/@Natasha_Jay)
 .
+
+![A screenshot of Natasha Jay's Mastodon post laying out the rules for the Greg or Ian Calendar.](./assets/screenshot-post.png)
 
 ### Icon
 
@@ -56,3 +84,5 @@ by
 made available under
 [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
 .
+
+<img width="400" alt="The Greg or Ian Calendar icon! Otherwise known as 'Help calendar' by Khomsun Chaiwong." src="./assets/logo.svg">
