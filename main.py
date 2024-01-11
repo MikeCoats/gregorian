@@ -27,7 +27,7 @@ __maintainer__ = "Mike Coats"
 __email__ = "i.am@mikecoats.com"
 
 __status__ = "Production"
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
 import asyncio
 from datetime import date, timedelta
@@ -72,6 +72,24 @@ templates = Jinja2Templates(directory=".")
 app.mount("/assets", StaticFiles(directory="./assets"), name="assets")
 
 
+def day_ordinal(day: int):
+    """Return whether a day of the month is a 'st', 'nd', 'rd' or 'th'."""
+    if day in (1, 21, 31):
+        return "st"
+    if day in (2, 22):
+        return "nd"
+    if day in (3, 23):
+        return "rd"
+    return "th"
+
+
+def pretty_date(src: date):
+    """Serialize a date in the format 'Sunday, 5th May 2024'."""
+    day_of_month = src.day
+    pretty_day = f"{day_of_month}{day_ordinal(day_of_month)}"
+    return src.strftime(f"%A, {pretty_day} %B %Y")
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Return an HTML page so our visitor knows today's 'Greg' or 'Ian' status."""
@@ -81,8 +99,8 @@ async def home(request: Request):
         "index.html",
         {
             "request": request,
-            "date": today.strftime('%Y-%m-%d'),
-            "nice_date": today.strftime('%A, %d %B %Y'.format()), #"Tuesday, 9th January 2024",
+            "date": today.strftime("%Y-%m-%d"),
+            "nice_date": pretty_date(today),
             "greg_or_ian": GREG_OR_IAN[today.weekday()],
         },
     )
