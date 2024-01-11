@@ -20,7 +20,6 @@
         - ./requirements.txt
         - ./main.py
         - ./index.html
-        - ./gregorian.service
 
     - name: Create the static assets dir
       ansible.builtin.file:
@@ -56,11 +55,16 @@
         virtualenv: /opt/gregorian/.venv
         virtualenv_command: python -m venv
 
+    - name: Copy over the systemd service
+      ansible.builtin.copy:
+        src: ./gregorian.service
+        dest: /opt/gregorian/gregorian.service
+        mode: 'u=rw,g=r,o=r'
+
     - name: Link in the systemd service
       ansible.builtin.file:
         src: /opt/gregorian/gregorian.service
         dest: /etc/systemd/system/gregorian.service
-        mode: 'u=rw,g=r,o=r'
         state: link
       become: true
 
